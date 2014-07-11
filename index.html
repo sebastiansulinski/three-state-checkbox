@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Three state checkbox list with jQuery</title>
+    <link href="css/normalize.css" rel="stylesheet">
+    <link href="css/foundation.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="row">
+
+    <div class="column">
+
+        <a href="#" class="tiny alert button disabled checkboxRemove">REMOVE</a>
+
+
+        <table class="tableList">
+
+            <thead>
+
+                <tr>
+                    <th class="col1">
+                        <input
+                                type="checkbox"
+                                class="checkboxAll"
+                                data-group-master="checkboxRemove"
+                                >
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        <input
+                                type="checkbox"
+                                class="checkboxRecord"
+                                data-group-record="checkboxRemove"
+                                data-id="1"
+                                >
+                    </td>
+                    <td>
+                        Name 1
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input
+                                type="checkbox"
+                                class="checkboxRecord"
+                                data-group-record="checkboxRemove"
+                                data-id="2"
+                                >
+                    </td>
+                    <td>
+                        Name 2
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input
+                                type="checkbox"
+                                class="checkboxRecord"
+                                data-group-record="checkboxRemove"
+                                data-id="3"
+                                >
+                    </td>
+                    <td>
+                        Name 3
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/jquery.ssdThreeStateCheck.js"></script>
+<script>
+    $(function() {
+        $(document).ssdThreeStateCheck();
+    });
+</script>
+</body>
+</html>

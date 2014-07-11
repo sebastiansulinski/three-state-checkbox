@@ -1,0 +1,24 @@
+body {
+
+    padding: 2rem 0;
+
+}
+
+input.checkboxAll, input.checkboxRecord {
+
+    margin-bottom: 0;
+
+}
+
+.tableList {
+
+    width: 100%;
+    border-collapse: collapse;
+
+}
+
+.col1 {
+
+    width: 1%;
+
+}
