@@ -184,25 +184,25 @@
                 var thisObject = $(this),
                     thisGroup = thisObject.data(settings.dataGroupRecord),
                     thisGroupItems = _setRecordObject(thisGroup),
-                    thisGroupAll = _setMasterObject(thisGroup);
+                    thisGroupMaster = _setMasterObject(thisGroup);
 
                 if (_areAllGroupItemsUnChecked(thisGroupItems)) {
 
-                    thisGroupAll.prop('indeterminate', false);
-                    thisGroupAll.prop('checked', false);
+                    thisGroupMaster.prop('indeterminate', false);
+                    thisGroupMaster.prop('checked', false);
 
                     _disableButton(thisGroup);
 
                 } else if (_areAllGroupItemsChecked(thisGroupItems)) {
 
-                    thisGroupAll.prop('indeterminate', false);
-                    thisGroupAll.prop('checked', true);
+                    thisGroupMaster.prop('indeterminate', false);
+                    thisGroupMaster.prop('checked', true);
 
                     _enableButton(thisGroup);
 
                 } else {
 
-                    thisGroupAll.prop('indeterminate', true);
+                    thisGroupMaster.prop('indeterminate', true);
 
                     _enableButton(thisGroup);
 
