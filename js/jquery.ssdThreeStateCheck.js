@@ -6,21 +6,41 @@
 
         var settings = $.extend({
 
-            classMaster : 'checkboxMaster',
-            classRecord : 'checkboxRecord',
+            classButton         : 'checkboxButton',
+            classMaster         : 'checkboxMaster',
+            classRecord         : 'checkboxRecord',
 
-            dataGroupMaster : 'group-master',
-            dataGroupRecord : 'group-record'
+            dataButtonUrl       : 'url',
+            dataGroupButton     : 'group-button',
+            dataGroupMaster     : 'group-master',
+            dataGroupRecord     : 'group-record',
+            dataGroupRecordId   : 'id'
 
         }, options);
 
+
+        function _isEmpty(thisValue) {
+
+            return (
+                thisValue === '' ||
+                typeof thisValue === 'undefined'
+            );
+
+        }
 
 
         function _enableButton(thisGroup) {
 
             "use strict";
 
-            $('.' + thisGroup).each(function() {
+            var identity  = '[data-';
+                identity += settings.dataGroupButton;
+                identity += '="';
+                identity += thisGroup;
+                identity += '"].';
+                identity += settings.classButton;
+
+            $(identity).each(function() {
 
                 $(this).removeClass('disabled');
 
@@ -38,7 +58,14 @@
 
             "use strict";
 
-            $('.' + thisGroup).each(function() {
+            var identity  = '[data-';
+                identity += settings.dataGroupButton;
+                identity += '="';
+                identity += thisGroup;
+                identity += '"].';
+                identity += settings.classButton;
+
+            $(identity).each(function() {
 
                 $(this).addClass('disabled');
 
@@ -87,6 +114,40 @@
             "use strict";
 
             return $('input[data-' + settings.dataGroupRecord + '="' + thisGroup + '"].' + settings.classRecord);
+
+        }
+
+
+        function _setCheckedRecordObject(thisGroup) {
+
+            "use strict";
+
+            return $('input:checked[data-' + settings.dataGroupRecord + '="' + thisGroup + '"].' + settings.classRecord);
+
+        }
+
+
+        function _getSelectedIds(thisGroup) {
+
+            "use strict";
+
+            var thisDeferred = $.Deferred(),
+                thisGroupItems = _setCheckedRecordObject(thisGroup),
+                thisIds = [];
+
+            thisGroupItems.each(function(k, v) {
+
+                thisIds.push($(this).data(settings.dataGroupRecordId));
+
+                if (parseInt((k + 1), 10) == thisGroupItems.length) {
+
+                    thisDeferred.resolve(thisIds);
+
+                }
+
+            });
+
+            return thisDeferred.promise();
 
         }
 
@@ -146,6 +207,38 @@
                     _enableButton(thisGroup);
 
                 }
+
+            });
+
+            $(this).on('click', '.' + settings.classButton, function(event) {
+
+                event.preventDefault();
+
+                if (!$(this).hasClass('disabled')) {
+
+                    var thisObject = $(this),
+                        thisGroup = thisObject.data(settings.dataGroupButton),
+                        thisUrl = thisObject.data(settings.dataButtonUrl);
+
+                    if (!_isEmpty(thisUrl)) {
+
+                        $.when(_getSelectedIds(thisGroup))
+                            .done(function(ids) {
+
+
+                                // replace with your ajax call
+                                var message  = 'Selected ids: [' + ids;
+                                    message += '] | Url to be called: ' + thisUrl;
+
+                                console.log(message);
+
+
+                            });
+
+                    }
+
+                }
+
 
             });
 
