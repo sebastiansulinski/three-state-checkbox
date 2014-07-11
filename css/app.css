@@ -4,7 +4,7 @@ body {
 
 }
 
-input.checkboxAll, input.checkboxRecord {
+input.checkboxMaster, input.checkboxRecord {
 
     margin-bottom: 0;
 
