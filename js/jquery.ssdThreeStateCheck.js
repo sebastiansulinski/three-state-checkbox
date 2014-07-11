@@ -6,7 +6,7 @@
 
         var settings = $.extend({
 
-            classMaster : 'checkboxAll',
+            classMaster : 'checkboxMaster',
             classRecord : 'checkboxRecord',
 
             dataGroupMaster : 'group-master',
