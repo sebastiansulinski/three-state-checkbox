@@ -6,4 +6,4 @@
 
 ###Usage instructions
 
-[Usage instrucitons link goes here]()
+[Usage instructions / Wiki](https://github.com/sebastiansulinski/jquery-three-state-checkbox/wiki)
