@@ -1,7 +1,10 @@
-/*!
- * ssdThreeStateCheckbox (https://github.com/sebastiansulinski/three-state-checkbox)
- * Copyright 2015 Sebastian Sulinski. (https://github.com/sebastiansulinski)
- * Licensed under MIT (https://github.com/sebastiansulinski/three-state-checkbox/blob/master/LICENSE)
+/*
+ * ssdThreeStateCheckbox jQuery plugin
+ * Examples and documentation at: https://github.com/sebastiansulinski/three-state-checkbox
+ * Copyright (c) 2015 Sebastian Sulinski
+ * Version: 1.0.0 (02-MAR-2015)
+ * Licensed under the MIT.
+ * Requires: jQuery v1.9 or later
  */
 ;(function($) {
 
