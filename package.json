@@ -1,0 +1,30 @@
+{
+  "name": "three-state-checkbox",
+  "version": "1.0.0",
+  "description": " jQuery plugin, which helps selecting and de-selecting group of checkboxes and enabling the action button based on the selection",
+  "main": "src/jquery.ssdThreeStateCheckbox.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sebastiansulinski/three-state-checkbox.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "three-state-checkbox"
+  ],
+  "author": "Sebastian Sulinski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebastiansulinski/three-state-checkbox/issues"
+  },
+  "dependencies": {
+    "jquery": ">= 1.9"
+  },
+  "homepage": "https://github.com/sebastiansulinski/three-state-checkbox"
+}
