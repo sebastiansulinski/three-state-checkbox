@@ -14,12 +14,18 @@
             dataGroupButton     : 'group-button',
             dataGroupMaster     : 'group-master',
             dataGroupRecord     : 'group-record',
-            dataGroupRecordId   : 'id'
+            dataGroupRecordId   : 'id',
+
+            clickCallback       : function(ids, trigger) {
+
+                console.log("clickCallback method call : collected [" + ids + "]");
+
+            }
 
         }, options);
 
 
-        function _isEmpty(thisValue) {
+        function isEmpty(thisValue) {
 
             return (
                 thisValue === '' ||
@@ -29,7 +35,7 @@
         }
 
 
-        function _enableButton(thisGroup) {
+        function enableButton(thisGroup) {
 
             "use strict";
 
@@ -54,7 +60,7 @@
 
         }
 
-        function _disableButton(thisGroup) {
+        function disableButton(thisGroup) {
 
             "use strict";
 
@@ -79,7 +85,7 @@
 
         }
 
-        function _areAllGroupItemsChecked(thisGroupItems) {
+        function areAllGroupItemsChecked(thisGroupItems) {
 
             "use strict";
 
@@ -89,7 +95,7 @@
 
         }
 
-        function _areAllGroupItemsUnChecked(thisGroupItems) {
+        function areAllGroupItemsUnChecked(thisGroupItems) {
 
             "use strict";
 
@@ -100,7 +106,7 @@
         }
 
 
-        function _setMasterObject(thisGroup) {
+        function setMasterObject(thisGroup) {
 
             "use strict";
 
@@ -109,7 +115,7 @@
         }
 
 
-        function _setRecordObject(thisGroup) {
+        function setRecordObject(thisGroup) {
 
             "use strict";
 
@@ -118,7 +124,7 @@
         }
 
 
-        function _setCheckedRecordObject(thisGroup) {
+        function setCheckedRecordObject(thisGroup) {
 
             "use strict";
 
@@ -127,12 +133,12 @@
         }
 
 
-        function _getSelectedIds(thisGroup) {
+        function getSelectedIds(thisGroup) {
 
             "use strict";
 
             var thisDeferred = $.Deferred(),
-                thisGroupItems = _setCheckedRecordObject(thisGroup),
+                thisGroupItems = setCheckedRecordObject(thisGroup),
                 thisIds = [];
 
             thisGroupItems.each(function(k, v) {
@@ -161,19 +167,19 @@
 
                 var thisObject = $(this),
                     thisGroup = thisObject.data(settings.dataGroupMaster),
-                    thisGroupItems = _setRecordObject(thisGroup);
+                    thisGroupItems = setRecordObject(thisGroup);
 
                 if (thisObject.is(':checked')) {
 
                     thisGroupItems.prop('checked', true);
 
-                    _enableButton(thisGroup);
+                    enableButton(thisGroup);
 
                 } else {
 
                     thisGroupItems.prop('checked', false);
 
-                    _disableButton(thisGroup);
+                    disableButton(thisGroup);
 
                 }
 
@@ -183,28 +189,28 @@
 
                 var thisObject = $(this),
                     thisGroup = thisObject.data(settings.dataGroupRecord),
-                    thisGroupItems = _setRecordObject(thisGroup),
-                    thisGroupMaster = _setMasterObject(thisGroup);
+                    thisGroupItems = setRecordObject(thisGroup),
+                    thisGroupMaster = setMasterObject(thisGroup);
 
-                if (_areAllGroupItemsUnChecked(thisGroupItems)) {
+                if (areAllGroupItemsUnChecked(thisGroupItems)) {
 
                     thisGroupMaster.prop('indeterminate', false);
                     thisGroupMaster.prop('checked', false);
 
-                    _disableButton(thisGroup);
+                    disableButton(thisGroup);
 
-                } else if (_areAllGroupItemsChecked(thisGroupItems)) {
+                } else if (areAllGroupItemsChecked(thisGroupItems)) {
 
                     thisGroupMaster.prop('indeterminate', false);
                     thisGroupMaster.prop('checked', true);
 
-                    _enableButton(thisGroup);
+                    enableButton(thisGroup);
 
                 } else {
 
                     thisGroupMaster.prop('indeterminate', true);
 
-                    _enableButton(thisGroup);
+                    enableButton(thisGroup);
 
                 }
 
@@ -216,21 +222,17 @@
 
                 if (!$(this).hasClass('disabled')) {
 
-                    var thisObject = $(this),
-                        thisGroup = thisObject.data(settings.dataGroupButton),
-                        thisUrl = thisObject.data(settings.dataButtonUrl);
+                    var thisTrigger = $(this),
+                        thisGroup = thisTrigger.data(settings.dataGroupButton),
+                        thisUrl = thisTrigger.data(settings.dataButtonUrl);
 
-                    if (!_isEmpty(thisUrl)) {
+                    if (!isEmpty(thisUrl)) {
 
-                        $.when(_getSelectedIds(thisGroup))
+                        $.when(getSelectedIds(thisGroup))
                             .done(function(ids) {
 
 
-                                // replace with your ajax call
-                                var message  = 'Selected ids: [' + ids;
-                                    message += '] | Url to be called: ' + thisUrl;
-
-                                console.log(message);
+                                settings.clickCallback(ids, thisTrigger);
 
 
                             });
