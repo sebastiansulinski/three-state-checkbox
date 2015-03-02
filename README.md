@@ -94,7 +94,7 @@ The important things here are:
 
 We can also add a button, which will be disabled by default and becomes enabled when at least one checkbox is checked. I'm using Zurb Foundation css, hence the classes associated with the button, but you can use any styling and element - including input or button. The important thing here is to give it a 'data-group-buttton' attribute (or your custom defined one) and set is value to the corresponding group - with the above example it would be 'checkboxRemove'.
 
-We also add the class 'checkboxButton' (or different and pass it as argument), plus 'data-url' attribute to indicate where the ajax call is suppose to be made (ajax call not included with the plugin, but all checked ids and the url will be collected and ready for the call).
+We also add the class 'checkboxButton', which will be used as a trigger identifier (this class name can be overwritten - see customisations below).
 
 
 ```
