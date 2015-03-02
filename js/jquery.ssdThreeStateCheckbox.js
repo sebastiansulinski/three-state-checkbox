@@ -1,6 +1,11 @@
+/*!
+ * ssdThreeStateCheckbox (https://github.com/sebastiansulinski/three-state-checkbox)
+ * Copyright 2015 Sebastian Sulinski. (https://github.com/sebastiansulinski)
+ * Licensed under MIT (https://github.com/sebastiansulinski/three-state-checkbox/blob/master/LICENSE)
+ */
 ;(function($) {
 
-    $.fn.ssdThreeStateCheck = function(options) {
+    $.fn.ssdThreeStateCheckbox = function(options) {
 
         "use strict";
 
@@ -10,7 +15,6 @@
             classMaster         : 'checkboxMaster',
             classRecord         : 'checkboxRecord',
 
-            dataButtonUrl       : 'url',
             dataGroupButton     : 'group-button',
             dataGroupMaster     : 'group-master',
             dataGroupRecord     : 'group-record',
@@ -223,21 +227,17 @@
                 if (!$(this).hasClass('disabled')) {
 
                     var thisTrigger = $(this),
-                        thisGroup = thisTrigger.data(settings.dataGroupButton),
-                        thisUrl = thisTrigger.data(settings.dataButtonUrl);
-
-                    if (!isEmpty(thisUrl)) {
-
-                        $.when(getSelectedIds(thisGroup))
-                            .done(function(ids) {
+                        thisGroup = thisTrigger.data(settings.dataGroupButton);
 
 
-                                settings.clickCallback(ids, thisTrigger);
+                    $.when(getSelectedIds(thisGroup))
+                        .done(function(ids) {
 
 
-                            });
+                            settings.clickCallback(ids, thisTrigger);
 
-                    }
+
+                        });
 
                 }
 
