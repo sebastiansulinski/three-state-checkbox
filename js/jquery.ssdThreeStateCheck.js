@@ -1,11 +1,6 @@
-/*!
- * ssdThreeStateCheckbox (https://github.com/sebastiansulinski/three-state-checkbox)
- * Copyright 2015 Sebastian Sulinski. (https://github.com/sebastiansulinski)
- * Licensed under MIT (https://github.com/sebastiansulinski/three-state-checkbox/blob/master/LICENSE)
- */
 ;(function($) {
 
-    $.fn.ssdThreeStateCheckbox = function(options) {
+    $.fn.ssdThreeStateCheck = function(options) {
 
         "use strict";
 
@@ -19,36 +14,31 @@
             dataGroupButton     : 'group-button',
             dataGroupMaster     : 'group-master',
             dataGroupRecord     : 'group-record',
-            dataGroupRecordId   : 'id',
-
-            clickCallback       : function(ids, trigger) {
-
-                console.log('clickCallback() method has been called with the following collection and the trigger instance as arguments [' + ids + ']');
-
-            }
+            dataGroupRecordId   : 'id'
 
         }, options);
 
 
-        function isEmpty(thisValue) {
+        function _isEmpty(thisValue) {
 
             return (
-            thisValue === '' ||
-            typeof thisValue === 'undefined'
+                thisValue === '' ||
+                typeof thisValue === 'undefined'
             );
 
         }
 
-        function enableButton(thisGroup) {
+
+        function _enableButton(thisGroup) {
 
             "use strict";
 
             var identity  = '[data-';
-            identity += settings.dataGroupButton;
-            identity += '="';
-            identity += thisGroup;
-            identity += '"].';
-            identity += settings.classButton;
+                identity += settings.dataGroupButton;
+                identity += '="';
+                identity += thisGroup;
+                identity += '"].';
+                identity += settings.classButton;
 
             $(identity).each(function() {
 
@@ -64,16 +54,16 @@
 
         }
 
-        function disableButton(thisGroup) {
+        function _disableButton(thisGroup) {
 
             "use strict";
 
             var identity  = '[data-';
-            identity += settings.dataGroupButton;
-            identity += '="';
-            identity += thisGroup;
-            identity += '"].';
-            identity += settings.classButton;
+                identity += settings.dataGroupButton;
+                identity += '="';
+                identity += thisGroup;
+                identity += '"].';
+                identity += settings.classButton;
 
             $(identity).each(function() {
 
@@ -89,7 +79,7 @@
 
         }
 
-        function areAllGroupItemsChecked(thisGroupItems) {
+        function _areAllGroupItemsChecked(thisGroupItems) {
 
             "use strict";
 
@@ -99,7 +89,7 @@
 
         }
 
-        function areAllGroupItemsUnChecked(thisGroupItems) {
+        function _areAllGroupItemsUnChecked(thisGroupItems) {
 
             "use strict";
 
@@ -110,7 +100,7 @@
         }
 
 
-        function setMasterObject(thisGroup) {
+        function _setMasterObject(thisGroup) {
 
             "use strict";
 
@@ -119,7 +109,7 @@
         }
 
 
-        function setRecordObject(thisGroup) {
+        function _setRecordObject(thisGroup) {
 
             "use strict";
 
@@ -128,7 +118,7 @@
         }
 
 
-        function setCheckedRecordObject(thisGroup) {
+        function _setCheckedRecordObject(thisGroup) {
 
             "use strict";
 
@@ -137,12 +127,12 @@
         }
 
 
-        function getSelectedIds(thisGroup) {
+        function _getSelectedIds(thisGroup) {
 
             "use strict";
 
             var thisDeferred = $.Deferred(),
-                thisGroupItems = setCheckedRecordObject(thisGroup),
+                thisGroupItems = _setCheckedRecordObject(thisGroup),
                 thisIds = [];
 
             thisGroupItems.each(function(k, v) {
@@ -162,6 +152,7 @@
         }
 
 
+
         return this.each(function() {
 
             "use strict";
@@ -170,19 +161,19 @@
 
                 var thisObject = $(this),
                     thisGroup = thisObject.data(settings.dataGroupMaster),
-                    thisGroupItems = setRecordObject(thisGroup);
+                    thisGroupItems = _setRecordObject(thisGroup);
 
                 if (thisObject.is(':checked')) {
 
                     thisGroupItems.prop('checked', true);
 
-                    enableButton(thisGroup);
+                    _enableButton(thisGroup);
 
                 } else {
 
                     thisGroupItems.prop('checked', false);
 
-                    disableButton(thisGroup);
+                    _disableButton(thisGroup);
 
                 }
 
@@ -192,28 +183,28 @@
 
                 var thisObject = $(this),
                     thisGroup = thisObject.data(settings.dataGroupRecord),
-                    thisGroupItems = setRecordObject(thisGroup),
-                    thisGroupMaster = setMasterObject(thisGroup);
+                    thisGroupItems = _setRecordObject(thisGroup),
+                    thisGroupMaster = _setMasterObject(thisGroup);
 
-                if (areAllGroupItemsUnChecked(thisGroupItems)) {
+                if (_areAllGroupItemsUnChecked(thisGroupItems)) {
 
                     thisGroupMaster.prop('indeterminate', false);
                     thisGroupMaster.prop('checked', false);
 
-                    disableButton(thisGroup);
+                    _disableButton(thisGroup);
 
-                } else if (areAllGroupItemsChecked(thisGroupItems)) {
+                } else if (_areAllGroupItemsChecked(thisGroupItems)) {
 
                     thisGroupMaster.prop('indeterminate', false);
                     thisGroupMaster.prop('checked', true);
 
-                    enableButton(thisGroup);
+                    _enableButton(thisGroup);
 
                 } else {
 
                     thisGroupMaster.prop('indeterminate', true);
 
-                    enableButton(thisGroup);
+                    _enableButton(thisGroup);
 
                 }
 
@@ -225,17 +216,21 @@
 
                 if (!$(this).hasClass('disabled')) {
 
-                    var thisTrigger = $(this),
-                        thisGroup = thisTrigger.data(settings.dataGroupButton),
-                        thisUrl = thisTrigger.data(settings.dataButtonUrl);
+                    var thisObject = $(this),
+                        thisGroup = thisObject.data(settings.dataGroupButton),
+                        thisUrl = thisObject.data(settings.dataButtonUrl);
 
-                    if (!isEmpty(thisUrl)) {
+                    if (!_isEmpty(thisUrl)) {
 
-                        $.when(getSelectedIds(thisGroup))
+                        $.when(_getSelectedIds(thisGroup))
                             .done(function(ids) {
 
 
-                                settings.clickCallback(ids, thisTrigger);
+                                // replace with your ajax call
+                                var message  = 'Selected ids: [' + ids;
+                                    message += '] | Url to be called: ' + thisUrl;
+
+                                console.log(message);
 
 
                             });
