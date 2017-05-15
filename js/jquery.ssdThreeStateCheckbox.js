@@ -2,7 +2,7 @@
  * ssdThreeStateCheckbox jQuery plugin
  * Examples and documentation at: https://github.com/sebastiansulinski/three-state-checkbox
  * Copyright (c) 2015 Sebastian Sulinski
- * Version: 1.1.0 (15-MAY-2017)
+ * Version: 1.1.1 (15-MAY-2017)
  * Licensed under the MIT.
  * Requires: jQuery v1.9 or later
  */
