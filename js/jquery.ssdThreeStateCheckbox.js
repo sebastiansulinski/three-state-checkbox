@@ -62,20 +62,20 @@
 
                 "use strict";
 
-                var identity  = '[data-';
-                    identity += settings.dataGroupButton;
-                    identity += '="';
-                    identity += thisGroup;
-                    identity += '"].';
-                    identity += settings.classButton;
+                var identity = '[data-'
+                    + settings.dataGroupButton
+                    + '="'
+                    + thisGroup
+                    + '"].'
+                    + settings.classButton;
 
                 $(identity).each(function() {
+                    var $this = $(this);
+                    $this.removeClass('disabled');
 
-                    $(this).removeClass('disabled');
+                    if ($this.is(':input')) {
 
-                    if ($(this).is(':input')) {
-
-                        $(this).prop('disabled', false);
+                        $this.prop('disabled', false);
 
                     }
 
@@ -87,20 +87,20 @@
 
                 "use strict";
 
-                var identity  = '[data-';
-                    identity += settings.dataGroupButton;
-                    identity += '="';
-                    identity += thisGroup;
-                    identity += '"].';
-                    identity += settings.classButton;
+                var identity = '[data-'
+                    + settings.dataGroupButton
+                    + '="'
+                    + thisGroup
+                    + '"].'
+                    + settings.classButton;
 
                 $(identity).each(function() {
+                    var $this = $(this);
+                    $this.addClass('disabled');
 
-                    $(this).addClass('disabled');
+                    if ($this.is(':input')) {
 
-                    if ($(this).is(':input')) {
-
-                        $(this).prop('disabled', true);
+                        $this.prop('disabled', true);
 
                     }
 
@@ -168,7 +168,7 @@
 
                     thisIds.push($(this).data(settings.dataGroupRecordId));
 
-                    if (parseInt((k + 1), 10) == thisGroupItems.length) {
+                    if (parseInt((k + 1), 10) === thisGroupItems.length) {
 
                         thisDeferred.resolve(thisIds);
 
@@ -217,15 +217,19 @@
 
                     if (areAllGroupItemsUnChecked(thisGroupItems)) {
 
-                        thisGroupMaster.prop('indeterminate', false);
-                        thisGroupMaster.prop('checked', false);
+                        thisGroupMaster.prop({
+                                              indeterminate: false,
+                                              checked: false
+                                            });
 
                         disableButton(thisGroup);
 
                     } else if (areAllGroupItemsChecked(thisGroupItems)) {
 
-                        thisGroupMaster.prop('indeterminate', false);
-                        thisGroupMaster.prop('checked', true);
+                        thisGroupMaster.prop({
+                                              indeterminate: false,
+                                              checked: true
+                                            });
 
                         enableButton(thisGroup);
 
