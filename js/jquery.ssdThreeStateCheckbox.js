@@ -1,8 +1,8 @@
 /*
  * ssdThreeStateCheckbox jQuery plugin
  * Examples and documentation at: https://github.com/sebastiansulinski/three-state-checkbox
- * Copyright (c) 2015 Sebastian Sulinski
- * Version: 1.1.2 (15-MAY-2017)
+ * Copyright (c) 2017 Sebastian Sulinski
+ * Version: 1.2.0 (8-SEP-2017)
  * Licensed under the MIT.
  * Requires: jQuery v1.9 or later
  */
@@ -186,7 +186,7 @@
 
                 "use strict";
 
-                $(this).on('click', '.' + settings.classMaster, function() {
+                $(this).on('change', '.' + settings.classMaster, function() {
 
                     var thisObject = $(this),
                         thisGroup = thisObject.data(settings.dataGroupMaster),
@@ -208,7 +208,7 @@
 
                 });
 
-                $(this).on('click', '.' + settings.classRecord, function() {
+                $(this).on('change', '.' + settings.classRecord, function() {
 
                     var thisObject = $(this),
                         thisGroup = thisObject.data(settings.dataGroupRecord),
