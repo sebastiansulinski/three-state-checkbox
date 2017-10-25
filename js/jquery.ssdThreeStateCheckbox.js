@@ -261,7 +261,10 @@
 
                 } else {
 
-                    groupMaster.prop('indeterminate', true);
+                    groupMaster.prop({
+                        indeterminate: true,
+                        checked: false
+                    });
 
                     enableButton(group);
 
