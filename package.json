@@ -1,6 +1,6 @@
 {
   "name": "three-state-checkbox",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": " jQuery plugin, which helps selecting and de-selecting group of checkboxes and enabling the action button based on the selection",
   "main": "js/jquery.ssdThreeStateCheckbox.js",
   "scripts": {
