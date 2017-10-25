@@ -2,7 +2,7 @@
  * ssdThreeStateCheckbox jQuery plugin
  * Examples and documentation at: https://github.com/sebastiansulinski/three-state-checkbox
  * Copyright (c) 2017 Sebastian Sulinski
- * Version: 1.2.0 (8-SEP-2017)
+ * Version: 1.2.1 (25-OCT-2017)
  * Licensed under the MIT.
  * Requires: jQuery v1.9 or later
  */
@@ -56,7 +56,6 @@
                 );
 
             }
-
 
             function enableButton(thisGroup) {
 
@@ -132,7 +131,6 @@
 
             }
 
-
             function setMasterObject(thisGroup) {
 
                 "use strict";
@@ -140,7 +138,6 @@
                 return $('input[data-' + settings.dataGroupMaster + '="' + thisGroup + '"].' + settings.classMaster);
 
             }
-
 
             function setRecordObject(thisGroup) {
 
@@ -150,7 +147,6 @@
 
             }
 
-
             function setCheckedRecordObject(thisGroup) {
 
                 "use strict";
@@ -159,121 +155,149 @@
 
             }
 
-
             function getSelectedIds(thisGroup) {
 
                 "use strict";
 
-                var thisDeferred = $.Deferred(),
-                    thisGroupItems = setCheckedRecordObject(thisGroup),
-                    thisIds = [];
+                var deferred = $.Deferred(),
+                    groupItems = setCheckedRecordObject(thisGroup),
+                    ids = [];
 
-                thisGroupItems.each(function(k, v) {
+                groupItems.each(function(k, v) {
 
-                    thisIds.push($(this).data(settings.dataGroupRecordId));
+                    ids.push($(this).data(settings.dataGroupRecordId));
 
-                    if (parseInt((k + 1), 10) === thisGroupItems.length) {
+                    if (parseInt((k + 1), 10) === groupItems.length) {
 
-                        thisDeferred.resolve(thisIds);
+                        deferred.resolve(ids);
 
                     }
 
                 });
 
-                return thisDeferred.promise();
+                return deferred.promise();
 
             }
 
-
-
-            return this.each(function() {
+            function registerEvents() {
 
                 "use strict";
 
-                $(this).on('change', '.' + settings.classMaster, function() {
+                $(document).on('change', '.' + settings.classMaster, function() {
 
-                    var thisObject = $(this),
-                        thisGroup = thisObject.data(settings.dataGroupMaster),
-                        thisGroupItems = setRecordObject(thisGroup);
+                    var $this = $(this),
+                        group = $this.data(settings.dataGroupMaster),
+                        groupItems = setRecordObject(group);
 
-                    if (thisObject.is(':checked')) {
+                    if ($this.is(':checked')) {
 
-                        thisGroupItems.prop('checked', true);
+                        groupItems.prop('checked', true);
 
-                        enableButton(thisGroup);
+                        enableButton(group);
 
                     } else {
 
-                        thisGroupItems.prop('checked', false);
+                        groupItems.prop('checked', false);
 
-                        disableButton(thisGroup);
+                        disableButton(group);
 
                     }
 
                 });
 
-                $(this).on('change', '.' + settings.classRecord, function() {
+                $(document).on('change', '.' + settings.classRecord, function() {
 
-                    var thisObject = $(this),
-                        thisGroup = thisObject.data(settings.dataGroupRecord),
-                        thisGroupItems = setRecordObject(thisGroup),
-                        thisGroupMaster = setMasterObject(thisGroup);
+                    var group = $(this).data(settings.dataGroupRecord),
+                        groupItems = setRecordObject(group),
+                        groupMaster = setMasterObject(group);
 
-                    if (areAllGroupItemsUnChecked(thisGroupItems)) {
-
-                        thisGroupMaster.prop({
-                            indeterminate: false,
-                            checked: false
-                        });
-
-                        disableButton(thisGroup);
-
-                    } else if (areAllGroupItemsChecked(thisGroupItems)) {
-
-                        thisGroupMaster.prop({
-                            indeterminate: false,
-                            checked: true
-                        });
-
-                        enableButton(thisGroup);
-
-                    } else {
-
-                        thisGroupMaster.prop('indeterminate', true);
-
-                        enableButton(thisGroup);
-
-                    }
+                    setMasterStatus(group, groupMaster, groupItems);
 
                 });
 
-                $(this).on('click', '.' + settings.classButton, function(event) {
+                $(document).on('click', '.' + settings.classButton, function(event) {
 
                     event.preventDefault();
 
                     if (!$(this).hasClass('disabled')) {
 
-                        var thisTrigger = $(this),
-                            thisGroup = thisTrigger.data(settings.dataGroupButton);
+                        var trigger = $(this),
+                            group = trigger.data(settings.dataGroupButton);
 
 
-                        $.when(getSelectedIds(thisGroup))
-                            .done(function(ids) {
+                        $.when(getSelectedIds(group)).done(function(ids) {
 
+                            settings.clickCallback(ids, trigger);
 
-                                settings.clickCallback(ids, thisTrigger);
-
-
-                            });
+                        });
 
                     }
 
+                });
+
+            }
+
+            function setMasterStatus(group, groupMaster, groupItems) {
+
+                "use strict";
+
+                if (areAllGroupItemsUnChecked(groupItems)) {
+
+                    groupMaster.prop({
+                        indeterminate: false,
+                        checked: false
+                    });
+
+                    disableButton(group);
+
+                } else if (areAllGroupItemsChecked(groupItems)) {
+
+                    groupMaster.prop({
+                        indeterminate: false,
+                        checked: true
+                    });
+
+                    enableButton(group);
+
+                } else {
+
+                    groupMaster.prop('indeterminate', true);
+
+                    enableButton(group);
+
+                }
+            }
+
+            function initialise() {
+
+                "use strict";
+
+                $('.' + settings.classMaster).each(function() {
+
+                    var $this = $(this),
+                        group = $this.data(settings.dataGroupMaster),
+                        groupItems = setRecordObject(group);
+
+                    if (groupItems.length === 0) {
+                        return;
+                    }
+
+                    setMasterStatus(group, $this, groupItems);
 
                 });
 
-            });
+            }
 
+            function boot() {
 
+                "use strict";
+
+                initialise();
+                registerEvents();
+
+            }
+
+            return boot();
         }
 
     })();
