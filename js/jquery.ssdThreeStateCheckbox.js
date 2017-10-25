@@ -70,7 +70,9 @@
                     + settings.classButton;
 
                 $(identity).each(function() {
+                    
                     var $this = $(this);
+                    
                     $this.removeClass('disabled');
 
                     if ($this.is(':input')) {
@@ -95,7 +97,9 @@
                     + settings.classButton;
 
                 $(identity).each(function() {
+                    
                     var $this = $(this);
+                    
                     $this.addClass('disabled');
 
                     if ($this.is(':input')) {
@@ -218,18 +222,18 @@
                     if (areAllGroupItemsUnChecked(thisGroupItems)) {
 
                         thisGroupMaster.prop({
-                                              indeterminate: false,
-                                              checked: false
-                                            });
+                            indeterminate: false,
+                            checked: false
+                        });
 
                         disableButton(thisGroup);
 
                     } else if (areAllGroupItemsChecked(thisGroupItems)) {
 
                         thisGroupMaster.prop({
-                                              indeterminate: false,
-                                              checked: true
-                                            });
+                            indeterminate: false,
+                            checked: true
+                        });
 
                         enableButton(thisGroup);
 
