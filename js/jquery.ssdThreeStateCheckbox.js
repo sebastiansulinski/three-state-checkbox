@@ -2,7 +2,7 @@
  * ssdThreeStateCheckbox jQuery plugin
  * Examples and documentation at: https://github.com/sebastiansulinski/three-state-checkbox
  * Copyright (c) 2017 Sebastian Sulinski
- * Version: 1.2.1 (25-OCT-2017)
+ * Version: 1.2.2 (O6-NOV-2017)
  * Licensed under the MIT.
  * Requires: jQuery v1.9 or later
  */
@@ -40,9 +40,7 @@
 				dataGroupRecordId	: 'id',
 
 				clickCallback		: function(ids, trigger) {
-
 					console.log("clickCallback method call : collected [" + ids + "]");
-
 				}
 
 			}, options);
@@ -141,45 +139,42 @@
 				return deferred.promise();
 			}
 
-			function registerEvents() {
-
+			function registerEvents(obj) {
 				"use strict";
+				$(obj).off('change.triState')
+					.on('change.triState', '.' + settings.classMaster, function() {
+						var $this = $(this),
+							group = $this.data(settings.dataGroupMaster),
+							groupItems = setRecordObject(group);
 
-				$(document).on('change', '.' + settings.classMaster, function() {
+						if ($this.is(':checked')) {
+							groupItems.not('[disabled]').prop('checked', true);
+							enableButton(group);
+						} else {
+							groupItems.not('[disabled]').prop('checked', false);
+							disableButton(group);
+						}
 
-					var $this = $(this),
-						group = $this.data(settings.dataGroupMaster),
-						groupItems = setRecordObject(group);
+					})
+				.on('change.triState', '.' + settings.classRecord, function() {
+						var group = $(this).data(settings.dataGroupRecord),
+							groupItems = setRecordObject(group),
+							groupMaster = setMasterObject(group);
 
-					if ($this.is(':checked')) {
-						groupItems.not('[disabled]').prop('checked', true);
-						enableButton(group);
-					} else {
-    					groupItems.not('[disabled]').prop('checked', false);
-    					disableButton(group);
-					}
+						setMasterStatus(group, groupMaster, groupItems);
+					})
 
-				});
+				.off('click.triState').on('click.triState', '.' + settings.classButton, function(event) {
+						event.preventDefault();
+						if (!$(this).hasClass('disabled')) {
+							var trigger = $(this),
+								group = trigger.data(settings.dataGroupButton);
 
-				$(document).on('change', '.' + settings.classRecord, function() {
-					var group = $(this).data(settings.dataGroupRecord),
-						groupItems = setRecordObject(group),
-						groupMaster = setMasterObject(group);
-
-					setMasterStatus(group, groupMaster, groupItems);
-				});
-
-				$(document).on('click', '.' + settings.classButton, function(event) {
-					event.preventDefault();
-					if (!$(this).hasClass('disabled')) {
-						var trigger = $(this),
-							group = trigger.data(settings.dataGroupButton);
-
-						$.when(getSelectedIds(group)).done(function(ids) {
-							settings.clickCallback(ids, trigger);
-						});
-					}
-				});
+							$.when(getSelectedIds(group)).done(function(ids) {
+								settings.clickCallback(ids, trigger);
+							});
+						}
+					});
 			}
 
 			function setMasterStatus(group, groupMaster, groupItems) {
@@ -206,7 +201,7 @@
 				}
 			}
 
-			function initialise() {
+			function initialise(obj) {
 				"use strict";
 				$('.' + settings.classMaster).each(function() {
 
@@ -219,15 +214,11 @@
 
 					setMasterStatus(group, $this, groupItems);
 				});
-
+                registerEvents(obj);
+                return obj;
 			}
 
-			function boot() {
-				"use strict";
-				initialise();
-				registerEvents();
-			}
-			return boot();
+			return initialise(this);
 		}
 	})();
 }));
