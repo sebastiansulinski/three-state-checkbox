@@ -110,7 +110,7 @@
 
     		function setMasterObject(thisGroup) {
     			"use strict";
-				return $('input[data-' + settings.dataGroupMaster + '="' + thisGroup + '"].' + settings.classMaster);
+				return $('input.' + settings.classMaster + '[data-' + settings.dataGroupMaster + '="' + thisGroup + '"]');
 			}
 
 			function setRecordObject(thisGroup) {
@@ -141,7 +141,7 @@
 
 			function registerEvents(obj) {
 				"use strict";
-				$(obj).off('change.triState')
+				obj.off('change.triState')
 					.on('change.triState', '.' + settings.classMaster, function() {
 						var $this = $(this),
 							group = $this.data(settings.dataGroupMaster),
@@ -201,24 +201,25 @@
 				}
 			}
 
-			function initialise(obj) {
-				"use strict";
-				$('.' + settings.classMaster).each(function() {
+			return this.each(
+				function(i,e)
+				{
+					"use strict";
+					e=$(e);
+					e.find('.' + settings.classMaster).each(
+						function() {
+							var $this = $(this),
+							group = $this.data(settings.dataGroupMaster),
+							groupItems = setRecordObject(group);
 
-					var $this = $(this),
-						group = $this.data(settings.dataGroupMaster),
-						groupItems = setRecordObject(group);
+							if (groupItems.length === 0)
+								return;
 
-					if (groupItems.length === 0)
-						return;
-
-					setMasterStatus(group, $this, groupItems);
-				});
-                registerEvents(obj);
-                return obj;
-			}
-
-			return initialise(this);
+							setMasterStatus(group, $this, groupItems);
+						});
+					registerEvents(e);
+				}
+			);
 		}
 	})();
 }));
