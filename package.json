@@ -21,7 +21,7 @@
     "url": "https://github.com/sebastiansulinski/three-state-checkbox/issues"
   },
   "dependencies": {
-    "jquery": ">= 3.4.0"
+    "jquery": "^3.5.1"
   },
   "homepage": "https://github.com/sebastiansulinski/three-state-checkbox"
 }
